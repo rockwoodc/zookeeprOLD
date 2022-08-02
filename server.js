@@ -14,6 +14,23 @@ app.get('/api/animals', (req, res) => {
     res.json(results);
 });
 
+//takes in the id and array of animals and returns a single animal object
+function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+  }
+
+//used when we only want one specific animal, rather than an array of all the animals that match a query.
+app.get('/api/animals/:id', (req, res) => {
+    const result = findById(req.params.id, animals);
+    if (result) {
+        res.json(result);
+        //if the parameters don't exist a 404 message will appear
+      } else {
+        res.send(404);
+      }
+    });
+
 //method to make the server listen
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
